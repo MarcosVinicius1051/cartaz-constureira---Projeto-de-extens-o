@@ -1,7 +1,20 @@
-const endpoint = "https://bba1a9a5-e22e-42dd-bc80-f2423b87a335-00-q5bu0ovtpf5l.riker.replit.dev/"
-fetch(endpoint)
-.then(res=>console.log(res))
-// .then(dados=>{
-//     console.log(dados)
-// })
+const url = "https://dummyjson.com/products"
+
+let result = fetch(url).then(res => res.json()).then(res=>res.products);
+//adentrar no array de "products"
+
+
+async function products(){
+
+    const productsArray = await result;
+
+
+    productsArray.map((el)=>{
+        console.log(el.id)
+        console.log(el.images[0])
+    })
+
+}
+
+products()
 
