@@ -8,16 +8,27 @@ export let result = fetch(url)
 fun.products()
 
 
-const btnBack = document.querySelector(".back");
+
 
 /* começar a fazer a manipulação do Dom */
 
 
 /* Sistema de navegação de "paginas" */
 
-fun.btnNext.addEventListener("click",(evt)=>{
-  let containerDivElements = [...document.querySelectorAll(".containerDivElements")]
-  
-  fun.nextElements(containerDivElements)
-});
+fun.btnNext.map((btnNext)=>{
+  btnNext.addEventListener("click",(evt)=>{
+    let containerDivElements = [...document.querySelectorAll(".containerDivElements")]
+    
+    fun.nextElements(containerDivElements);
+  });
+})
+fun.btnBack.map((btnBack)=>{
+  btnBack.classList.add("hide")
+  btnBack.addEventListener("click",(evt)=>{
+    let containerDivElements = [...document.querySelectorAll(".containerDivElements")]
+    fun.backElements(containerDivElements);
+  });
+})
+
+
 

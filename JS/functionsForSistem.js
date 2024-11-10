@@ -3,7 +3,8 @@ import { result } from "./index.js";
 let indexArrName;
 let nameContainer;
 let indexElementContainerNumber;
-export const btnNext = document.querySelector(".next"); 
+export const btnNext = [...document.querySelectorAll(".next")];
+export const btnBack = [...document.querySelectorAll(".back")];
 const containerMain = document.querySelector(".containerMain");
 
 export async function products() {
@@ -34,8 +35,8 @@ function createItemsAndContainers(
     let creatDiv = document.createElement("div");
     creatDiv.classList.add(`containerFiveElement${indexArrName}`);
     creatDiv.classList.add(`containerDivElements`);
-    if(indexArrName >=5 ){
-      creatDiv.classList.add('hide')
+    if (indexArrName >= 5) {
+      creatDiv.classList.add("hide");
     }
     containerMain.appendChild(creatDiv);
     nameContainer = `containerFiveElement${indexArrName}`;
@@ -59,11 +60,11 @@ function createItemsInContainers(
   title,
   description,
   category,
-  indexArrName,
+  indexArrName
 ) {
   let elementDivCreat = document.createElement("div");
   elementDivCreat.id = `${id} ${category}`;
-  elementDivCreat.classList.add("containerElement")
+  elementDivCreat.classList.add("containerElement");
   let imgElement = document.createElement("img");
   imgElement.src = img;
   imgElement.alt = `${title} img`;
@@ -80,25 +81,60 @@ function createItemsInContainers(
   divActual.appendChild(elementDivCreat);
 }
 
-
-export function nextElements(elements){
+export function nextElements(elements) {
   /*sistema de passa para a proxima pagina */
-  elements.map((el)=>{
-    if(!el.className.endsWith("hide")){
-      indexElementContainerNumber = elements.indexOf(el)+1;
-      el.classList.add("hide");    
-      console.log(indexElementContainerNumber) 
+
+  elements.map((el) => {
+    /*Sistema de "mostrar" o btn back */
+    if (elements.indexOf(el) != 0) {
+      btnBack.map((btnBack) => btnBack.classList.remove("hide"));
     }
-  })
+
+    if (!el.className.endsWith("hide")) {
+      indexElementContainerNumber = elements.indexOf(el) + 1;
+      el.classList.add("hide");
+    }
+  });
+
   /*sistema de parar quando não tiver mais pagina */
 
-  if(indexElementContainerNumber <= elements.length-1 /*arr de elements =6, mas so tem 5 */){
-    elements[indexElementContainerNumber].classList.remove("hide"); 
-    console.log(elements)
-    console.log(indexElementContainerNumber) 
-  }else{
-    btnNext.classList.add("hide")
-    elements[indexElementContainerNumber-1].classList.remove("hide"); 
+  if (
+    indexElementContainerNumber <=
+    elements.length - 1 /*arr de elements =6, mas so tem 5 */
+  ) {
+    elements[indexElementContainerNumber].classList.remove("hide");
+  } else {
+    btnNext.map((btnNext) => {
+      btnNext.classList.add("hide");
+    });
+    elements[indexElementContainerNumber - 1].classList.remove("hide");
   }
+}
 
+export function backElements(elements) {
+  /*sistema para fazer os elementos terem hide */
+  elements.map((el) => {
+
+    if (!el.className.endsWith("hide")) {
+      indexElementContainerNumber = elements.indexOf(el) - 1;
+      el.classList.add("hide");
+      console.log(elements.indexOf(el))
+      if (elements.indexOf(el) == 1) {
+        btnBack.map((btnBack) => btnBack.classList.add("hide"));
+        console.log(elements.indexOf(el))
+      }
+    }
+  });
+
+  if (
+    indexElementContainerNumber <=
+    elements.length - 1 /*arr de elements =6, mas so tem 5 */
+  ) {
+    elements[indexElementContainerNumber].classList.remove("hide");
+  } else {
+    btnBack.map((btnBack) => {
+      btnBack.classList.add("hide");
+    });
+    elements[indexElementContainerNumber + 1].classList.remove("hide");
+  }
 }
