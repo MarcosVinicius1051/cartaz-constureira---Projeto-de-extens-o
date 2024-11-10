@@ -10,6 +10,7 @@ fun.products()
 
 
 
+
 /* começar a fazer a manipulação do Dom */
 
 
@@ -17,16 +18,13 @@ fun.products()
 
 fun.btnNext.map((btnNext)=>{
   btnNext.addEventListener("click",(evt)=>{
-    let containerDivElements = [...document.querySelectorAll(".containerDivElements")]
-    
-    fun.nextElements(containerDivElements);
+    fun.nextElements();
   });
 })
 fun.btnBack.map((btnBack)=>{
   btnBack.classList.add("hide")
   btnBack.addEventListener("click",(evt)=>{
-    let containerDivElements = [...document.querySelectorAll(".containerDivElements")]
-    fun.backElements(containerDivElements);
+    fun.backElements();
   });
 })
 

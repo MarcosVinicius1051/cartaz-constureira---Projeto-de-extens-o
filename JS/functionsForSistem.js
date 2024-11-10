@@ -5,6 +5,10 @@ let nameContainer;
 let indexElementContainerNumber;
 export const btnNext = [...document.querySelectorAll(".next")];
 export const btnBack = [...document.querySelectorAll(".back")];
+
+function containerDivElementsFunction(){
+  return  [...document.querySelectorAll(".containerDivElements")]
+}
 const containerMain = document.querySelector(".containerMain");
 
 export async function products() {
@@ -21,6 +25,8 @@ export async function products() {
       el.category
     );
   });
+
+  
 }
 
 function createItemsAndContainers(
@@ -79,62 +85,76 @@ function createItemsInContainers(
   elementDivCreat.appendChild(imgElement);
   elementDivCreat.appendChild(descriptionElement);
   divActual.appendChild(elementDivCreat);
+
+ 
 }
 
-export function nextElements(elements) {
-  /*sistema de passa para a proxima pagina */
 
-  elements.map((el) => {
+
+export function nextElements() {
+
+  let containerDivElements = (containerDivElementsFunction())
+
+  containerDivElements.map((el) => {
     /*Sistema de "mostrar" o btn back */
-    if (elements.indexOf(el) != 0) {
+    if (containerDivElements.indexOf(el) != 0) {
       btnBack.map((btnBack) => btnBack.classList.remove("hide"));
     }
-
+// SISTEMA PARA ADICIONAR O "HIDE" A DIV ANTERIOR
     if (!el.className.endsWith("hide")) {
-      indexElementContainerNumber = elements.indexOf(el) + 1;
+      indexElementContainerNumber = containerDivElements.indexOf(el) + 1;
       el.classList.add("hide");
     }
   });
 
   /*sistema de parar quando não tiver mais pagina */
-
-  if (
-    indexElementContainerNumber <=
-    elements.length - 1 /*arr de elements =6, mas so tem 5 */
-  ) {
-    elements[indexElementContainerNumber].classList.remove("hide");
-  } else {
+ 
+console.log(indexElementContainerNumber)
+//ABAIXO É UM SISTEMA PARA DESABILITAR O NEXT
+  if(indexElementContainerNumber == containerDivElements.length-1){
     btnNext.map((btnNext) => {
       btnNext.classList.add("hide");
     });
-    elements[indexElementContainerNumber - 1].classList.remove("hide");
   }
+  //SISTEMA PARA TIRAR O "HIDE" DA DIV ATUAL 
+  if (
+    indexElementContainerNumber <
+    containerDivElements.length  /*arr de elements =6, mas so tem 5 */
+  ) {
+    containerDivElements[indexElementContainerNumber].classList.remove("hide");
+    
+  } 
 }
 
-export function backElements(elements) {
-  /*sistema para fazer os elementos terem hide */
-  elements.map((el) => {
 
+export function backElements() {
+
+  let containerDivElements = (containerDivElementsFunction())
+
+  containerDivElements.map((el) => {
+    if (containerDivElements.indexOf(el) <= containerDivElements.length - 2) {
+      btnNext.map((btnNext) => btnNext.classList.remove("hide"));
+    }
     if (!el.className.endsWith("hide")) {
-      indexElementContainerNumber = elements.indexOf(el) - 1;
+      indexElementContainerNumber = containerDivElements.indexOf(el) - 1;
       el.classList.add("hide");
-      console.log(elements.indexOf(el))
-      if (elements.indexOf(el) == 1) {
+      console.log(containerDivElements.indexOf(el));
+      if (containerDivElements.indexOf(el) == 1) {
         btnBack.map((btnBack) => btnBack.classList.add("hide"));
-        console.log(elements.indexOf(el))
+        console.log(containerDivElements.indexOf(el));
       }
     }
   });
 
   if (
     indexElementContainerNumber <=
-    elements.length - 1 /*arr de elements =6, mas so tem 5 */
+    containerDivElements.length - 1 /*arr de elements =6, mas so tem 5 */
   ) {
-    elements[indexElementContainerNumber].classList.remove("hide");
+    containerDivElements[indexElementContainerNumber].classList.remove("hide");
   } else {
     btnBack.map((btnBack) => {
       btnBack.classList.add("hide");
     });
-    elements[indexElementContainerNumber + 1].classList.remove("hide");
+    containerDivElements[indexElementContainerNumber + 1].classList.remove("hide");
   }
 }
