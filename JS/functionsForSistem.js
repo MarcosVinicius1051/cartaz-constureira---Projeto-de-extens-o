@@ -2,6 +2,8 @@ import { result } from "./index.js";
 
 let indexArrName;
 let nameContainer;
+let indexElementContainerNumber;
+export const btnNext = document.querySelector(".next"); 
 const containerMain = document.querySelector(".containerMain");
 
 export async function products() {
@@ -31,6 +33,10 @@ function createItemsAndContainers(
   if (indexArrName % 5 == 0) {
     let creatDiv = document.createElement("div");
     creatDiv.classList.add(`containerFiveElement${indexArrName}`);
+    creatDiv.classList.add(`containerDivElements`);
+    if(indexArrName >=5 ){
+      creatDiv.classList.add('hide')
+    }
     containerMain.appendChild(creatDiv);
     nameContainer = `containerFiveElement${indexArrName}`;
   }
@@ -53,13 +59,11 @@ function createItemsInContainers(
   title,
   description,
   category,
-  indexArrName
+  indexArrName,
 ) {
   let elementDivCreat = document.createElement("div");
   elementDivCreat.id = `${id} ${category}`;
-  if (indexArrName >= 5) {
-    elementDivCreat.classList.add("hide");
-  }
+  elementDivCreat.classList.add("containerElement")
   let imgElement = document.createElement("img");
   imgElement.src = img;
   imgElement.alt = `${title} img`;
@@ -74,4 +78,27 @@ function createItemsInContainers(
   elementDivCreat.appendChild(imgElement);
   elementDivCreat.appendChild(descriptionElement);
   divActual.appendChild(elementDivCreat);
+}
+
+
+export function nextElements(elements){
+  /*sistema de passa para a proxima pagina */
+  elements.map((el)=>{
+    if(!el.className.endsWith("hide")){
+      indexElementContainerNumber = elements.indexOf(el)+1;
+      el.classList.add("hide");    
+      console.log(indexElementContainerNumber) 
+    }
+  })
+  /*sistema de parar quando não tiver mais pagina */
+
+  if(indexElementContainerNumber <= elements.length-1 /*arr de elements =6, mas so tem 5 */){
+    elements[indexElementContainerNumber].classList.remove("hide"); 
+    console.log(elements)
+    console.log(indexElementContainerNumber) 
+  }else{
+    btnNext.classList.add("hide")
+    elements[indexElementContainerNumber-1].classList.remove("hide"); 
+  }
+
 }
