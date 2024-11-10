@@ -2,6 +2,9 @@
     margin: 0; 
     padding: 0;
 }
+    img{
+        width: 250px;
+    }
 
 .container{
     min-height: 100vh;
@@ -29,18 +32,29 @@
     height: 40px;
     width: 100%;
 }
-.containerMain{
-
-}   
-    .element{
-        width: 100px;
-        height: 100px;
-        background-color: chocolate;
-    }
 
 .main{
+    height: 200vh;
+    
     flex:1;
 }
+
+.containerMain{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}   
+    .element{
+        width: 250px;
+        
+    }
+    .element img{
+        width: 400px;
+        
+    }
+
+
 
 .containerFooter{
     width: 100%;
