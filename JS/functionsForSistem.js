@@ -5,28 +5,25 @@ let nameContainer;
 let indexElementContainerNumber;
 export const btnNext = [...document.querySelectorAll(".next")];
 export const btnBack = [...document.querySelectorAll(".back")];
+ 
 
-function containerDivElementsFunction(){
-  return  [...document.querySelectorAll(".containerDivElements")]
-}
 const containerMain = document.querySelector(".containerMain");
 
-export async function products() {
-  const productsArray = await result;
-  console.log(productsArray[0]);
-  productsArray.map((el) => {
-    indexArrName = productsArray.indexOf(el);
-    createItemsAndContainers(
-      indexArrName,
-      el.id,
-      el.images[0],
-      el.title,
-      el.description,
-      el.category
-    );
-  });
 
-  
+export async function products(cod) {
+    const productsArray = await result;
+    console.log(productsArray[0]);
+    productsArray.map((el) => {
+      indexArrName = productsArray.indexOf(el);
+      createItemsAndContainers(
+        indexArrName,
+        el.id,
+        el.images[0],
+        el.title,
+        el.description,
+        el.category
+      );
+    });
 }
 
 function createItemsAndContainers(
@@ -79,28 +76,23 @@ function createItemsInContainers(
   titleElement.innerHTML = title;
   let descriptionElement = document.createElement("p");
   descriptionElement.classList.add("descriptionElement");
+  descriptionElement.classList.add("hide");
   descriptionElement.innerHTML = description;
 
-  elementDivCreat.appendChild(titleElement);
   elementDivCreat.appendChild(imgElement);
+  elementDivCreat.appendChild(titleElement);
   elementDivCreat.appendChild(descriptionElement);
   divActual.appendChild(elementDivCreat);
-
- 
 }
 
-
-
-export function nextElements() {
-
-  let containerDivElements = (containerDivElementsFunction())
+export function nextElements(containerDivElements) {
 
   containerDivElements.map((el) => {
     /*Sistema de "mostrar" o btn back */
     if (containerDivElements.indexOf(el) != 0) {
       btnBack.map((btnBack) => btnBack.classList.remove("hide"));
     }
-// SISTEMA PARA ADICIONAR O "HIDE" A DIV ANTERIOR
+    // SISTEMA PARA ADICIONAR O "HIDE" A DIV ANTERIOR
     if (!el.className.endsWith("hide")) {
       indexElementContainerNumber = containerDivElements.indexOf(el) + 1;
       el.classList.add("hide");
@@ -108,28 +100,25 @@ export function nextElements() {
   });
 
   /*sistema de parar quando não tiver mais pagina */
- 
-console.log(indexElementContainerNumber)
-//ABAIXO É UM SISTEMA PARA DESABILITAR O NEXT
-  if(indexElementContainerNumber == containerDivElements.length-1){
+
+  console.log(indexElementContainerNumber);
+  //ABAIXO É UM SISTEMA PARA DESABILITAR O NEXT
+  if (indexElementContainerNumber == containerDivElements.length - 1) {
     btnNext.map((btnNext) => {
       btnNext.classList.add("hide");
     });
   }
-  //SISTEMA PARA TIRAR O "HIDE" DA DIV ATUAL 
+  //SISTEMA PARA TIRAR O "HIDE" DA DIV ATUAL
   if (
     indexElementContainerNumber <
-    containerDivElements.length  /*arr de elements =6, mas so tem 5 */
+    containerDivElements.length /*arr de elements =6, mas so tem 5 */
   ) {
     containerDivElements[indexElementContainerNumber].classList.remove("hide");
-    
-  } 
+  }
 }
 
+export function backElements(containerDivElements) {
 
-export function backElements() {
-
-  let containerDivElements = (containerDivElementsFunction())
 
   containerDivElements.map((el) => {
     if (containerDivElements.indexOf(el) <= containerDivElements.length - 2) {
@@ -155,6 +144,31 @@ export function backElements() {
     btnBack.map((btnBack) => {
       btnBack.classList.add("hide");
     });
-    containerDivElements[indexElementContainerNumber + 1].classList.remove("hide");
+    containerDivElements[indexElementContainerNumber + 1].classList.remove(
+      "hide"
+    );
   }
+}
+
+
+export function clickContainerElements(elementsDiv,p){
+if(elementsDiv.className.endsWith("selected")){
+  p.classList.add("hide")
+  elementsDiv.style.height = "300px"
+  elementsDiv.style.width = "300px";
+  elementsDiv.classList.remove("selected");
+  
+}else{
+  elementsDiv.style.boxShadow = "0px 0px 25px rgb(99, 99, 99)"
+  elementsDiv.style.height = "450px";
+  elementsDiv.style.width = "350px";
+  elementsDiv.classList.add("selected");
+  if(elementsDiv.style.width == "350px"){
+    p.classList.remove("hide")
+  }
+  
+}
+
+
+
 }

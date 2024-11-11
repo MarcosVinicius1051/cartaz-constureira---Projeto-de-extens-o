@@ -5,28 +5,44 @@ export let result = fetch(url)
   .then((res) => res.json())
   .then((res) => res.products);
 
-fun.products()
+let containerElement ;
+let containerDivElements;
+let containerPElements
+let resultProducts =  await fun.products()
+
+
+//sistema de pegar os elementos DEPOIS de serem puxados do DOM 
+if(resultProducts != false){
+  containerElement = [...document.querySelectorAll(".containerElement")];
+  containerDivElements = [...document.querySelectorAll(".containerDivElements")];
+  containerPElements = [...document.querySelectorAll(".descriptionElement")]
+}
 
 
 
 
-
-/* começar a fazer a manipulação do Dom */
-
-
-/* Sistema de navegação de "paginas" */
 
 fun.btnNext.map((btnNext)=>{
   btnNext.addEventListener("click",(evt)=>{
-    fun.nextElements();
+    fun.nextElements(containerDivElements);
   });
 })
 fun.btnBack.map((btnBack)=>{
   btnBack.classList.add("hide")
   btnBack.addEventListener("click",(evt)=>{
-    fun.backElements();
+    fun.backElements(containerDivElements);
   });
+});
+
+containerElement.map((containerElement)=>{
+  containerElement.addEventListener("click", (evt)=>{
+    // ao clicar class hide de "p" deve ser retirada. 
+    fun.clickContainerElements(containerElement,containerElement.lastElementChild)//pega o ultimo elemento filho, ou seja "p"
+
+
+  })
 })
+
 
 
 
