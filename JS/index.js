@@ -36,9 +36,8 @@ fun.btnBack.map((btnBack)=>{
 
 containerElement.map((containerElement)=>{
   containerElement.addEventListener("click", (evt)=>{
-    // ao clicar class hide de "p" deve ser retirada. 
+    // ao clicar class hide de "p" é retirada. 
     fun.clickContainerElements(containerElement,containerElement.lastElementChild)//pega o ultimo elemento filho, ou seja "p"
-
 
   })
 })

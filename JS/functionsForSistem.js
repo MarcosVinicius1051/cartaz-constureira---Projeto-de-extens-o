@@ -5,25 +5,23 @@ let nameContainer;
 let indexElementContainerNumber;
 export const btnNext = [...document.querySelectorAll(".next")];
 export const btnBack = [...document.querySelectorAll(".back")];
- 
 
 const containerMain = document.querySelector(".containerMain");
 
-
 export async function products(cod) {
-    const productsArray = await result;
-    console.log(productsArray[0]);
-    productsArray.map((el) => {
-      indexArrName = productsArray.indexOf(el);
-      createItemsAndContainers(
-        indexArrName,
-        el.id,
-        el.images[0],
-        el.title,
-        el.description,
-        el.category
-      );
-    });
+  const productsArray = await result;
+  console.log(productsArray[0]);
+  productsArray.map((el) => {
+    indexArrName = productsArray.indexOf(el);
+    createItemsAndContainers(
+      indexArrName,
+      el.id,
+      el.images[0],
+      el.title,
+      el.description,
+      el.category
+    );
+  });
 }
 
 function createItemsAndContainers(
@@ -86,7 +84,6 @@ function createItemsInContainers(
 }
 
 export function nextElements(containerDivElements) {
-
   containerDivElements.map((el) => {
     /*Sistema de "mostrar" o btn back */
     if (containerDivElements.indexOf(el) != 0) {
@@ -118,8 +115,6 @@ export function nextElements(containerDivElements) {
 }
 
 export function backElements(containerDivElements) {
-
-
   containerDivElements.map((el) => {
     if (containerDivElements.indexOf(el) <= containerDivElements.length - 2) {
       btnNext.map((btnNext) => btnNext.classList.remove("hide"));
@@ -150,25 +145,16 @@ export function backElements(containerDivElements) {
   }
 }
 
-
-export function clickContainerElements(elementsDiv,p){
-if(elementsDiv.className.endsWith("selected")){
-  p.classList.add("hide")
-  elementsDiv.style.height = "300px"
-  elementsDiv.style.width = "300px";
-  elementsDiv.classList.remove("selected");
-  
-}else{
-  elementsDiv.style.boxShadow = "0px 0px 25px rgb(99, 99, 99)"
-  elementsDiv.style.height = "450px";
-  elementsDiv.style.width = "350px";
-  elementsDiv.classList.add("selected");
-  if(elementsDiv.style.width == "350px"){
-    p.classList.remove("hide")
+export function clickContainerElements(elementsDiv, p) {
+  if (elementsDiv.className.endsWith("selected")) {
+    p.classList.add("hide");
+    elementsDiv.style.height = "300px";
+    elementsDiv.style.width = "300px";
+    elementsDiv.classList.remove("selected");
+  } else {
+    elementsDiv.style.height = "450px";
+    elementsDiv.style.width = "330px";
+    elementsDiv.classList.add("selected"); // adiciona a classe de selected
+    p.classList.remove("hide");
   }
-  
-}
-
-
-
 }

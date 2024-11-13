@@ -1,0 +1,19 @@
+
+.containerNav1{
+    width: 350px;
+    height: 50px;
+    background-color:chocolate;
+    padding-left: 10px;
+    gap: 10px;
+
+    overflow-x: auto;
+
+    display: flex;
+}
+
+.btnTags{
+    min-width: 100px;
+    margin-right: 10px;
+}
+
+/*Esconder o scroll dps*/
