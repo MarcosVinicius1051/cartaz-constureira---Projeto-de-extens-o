@@ -1,5 +1,6 @@
 import * as fun from "./functionsForSistem.js";
 const url = "https://dummyjson.com/products";
+import * as style from "./styleSistems.js"
 
 export let result = fetch(url)
   .then((res) => res.json())
@@ -7,9 +8,8 @@ export let result = fetch(url)
 
 let containerElement;
 let containerDivElements;
-let containerPElements;
 let containerTagsElementsButtons;
-let resultProducts = await fun.products();
+let resultProducts = await fun.getProducts();
 
 //sistema de pegar os elementos DEPOIS de serem puxados do DOM
 if (resultProducts != false) {
@@ -17,15 +17,16 @@ if (resultProducts != false) {
   containerDivElements = [
     ...document.querySelectorAll(".containerDivElements"),
   ];
-  containerPElements = [...document.querySelectorAll(".descriptionElement")];
   containerTagsElementsButtons = [...document.querySelectorAll(".btnTags")];
 }
 
 fun.btnNext.map((btnNext) => {
   btnNext.addEventListener("click", (evt) => {
-    fun.nextElements(containerDivElements);
+    fun.nextElementsButtonSistem(containerDivElements);
   });
 });
+
+
 fun.btnBack.map((btnBack) => {
   btnBack.classList.add("hide");
   btnBack.addEventListener("click", (evt) => {
@@ -36,7 +37,7 @@ fun.btnBack.map((btnBack) => {
 containerElement.map((containerElement) => {
   containerElement.addEventListener("click", (evt) => {
     // ao clicar class hide de "p" é retirada.
-    fun.clickContainerElements(
+    style.clickContainerElements(
       containerElement,
       containerElement.lastElementChild
     ); //pega o ultimo elemento filho, ou seja "p"
@@ -45,8 +46,8 @@ containerElement.map((containerElement) => {
 
 containerTagsElementsButtons.map((containerTagsElementsButtons) => {
   containerTagsElementsButtons.addEventListener("click", (evt) => {
-
-    fun.selectTags(containerTagsElementsButtons,containerElement);
+    
+    fun.selectTags(containerTagsElementsButtons.classList[1],containerElement);
   });
 });
 

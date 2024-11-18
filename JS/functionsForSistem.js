@@ -1,115 +1,136 @@
 import { result } from "./index.js";
 
-let indexArrName;
-let nameContainer;
+let indexAllDataElement;
+let nameContainerFiveElement;
 let indexElementContainerNumber;
 export const btnNext = [...document.querySelectorAll(".next")];
 export const btnBack = [...document.querySelectorAll(".back")];
 
 const containerMain = document.querySelector(".containerMain");
 
-export async function products(cod) {
+let tagsElementsName = {
+  "tagBeauty":'beauty',
+  "tagFragrances":"Fragrances",
+  "tagFurniture":"furniture",
+  "tagGroceries":"groceries"
+}
+
+export async function getProducts() {
   const productsArray = await result;
   console.log(productsArray[0]);
   productsArray.map((el) => {
-    indexArrName = productsArray.indexOf(el);
-    createItemsAndContainers(
-      indexArrName,
-      el.id,
-      el.images[0],
-      el.title,
-      el.description,
-      el.category
-    );
+    indexAllDataElement = productsArray.indexOf(el);
+
+    createChieldsElementsInContainerFiveElement({
+      id: el.id,
+      images: el.images[0],
+      title: el.title,
+      description: el.description,
+      category: el.category,
+      divActual: createDivElements(indexAllDataElement),
+    });
   });
 }
 
-function createItemsAndContainers(
-  indexArrName,
-  id,
-  img,
-  title,
-  description,
-  category
-) {
-  if (indexArrName % 5 == 0) {
+function createDivElements(indexAllDataElement) {
+  if (indexAllDataElement % 5 == 0) {
     let creatDiv = document.createElement("div");
-    creatDiv.classList.add(`containerFiveElement${indexArrName}`);
+    creatDiv.classList.add(`containerFiveElement${indexAllDataElement}`);
     creatDiv.classList.add(`containerDivElements`);
-    if (indexArrName >= 5) {
+    if (indexAllDataElement >= 5) {
       creatDiv.classList.add("hide");
     }
     containerMain.appendChild(creatDiv);
-    nameContainer = `containerFiveElement${indexArrName}`;
+    nameContainerFiveElement = `containerFiveElement${indexAllDataElement}`;
   }
-  let divActual = document.querySelector(`.${nameContainer}`);
-  createItemsInContainers(
-    divActual,
-    id,
-    img,
-    title,
-    description,
-    category,
-    indexArrName
-  );
+
+  let divActual = document.querySelector(`.${nameContainerFiveElement}`);
+  return divActual;
 }
 
-function createItemsInContainers(
-  divActual,
+function createChieldsElementsInContainerFiveElement({
   id,
-  img,
+  images,
   title,
   description,
   category,
-  indexArrName
-) {
+  divActual,
+}) {
+  let createDivContainerElementResult = createDivContainerElement(id, category);
+
+  createDivContainerElementResult.appendChild(
+    createImageElement(images, title)
+  );
+  createDivContainerElementResult.appendChild(createTitleElement(title));
+  createDivContainerElementResult.appendChild(
+    createdescriptionElement(description)
+  );
+  if (createDivContainerElementResult) {
+    divActual.appendChild(createDivContainerElementResult);
+  }
+}
+
+function createDivContainerElement(id, category) {
   let elementDivCreat = document.createElement("div");
   elementDivCreat.id = `${id}`;
   elementDivCreat.classList.add("containerElement");
   elementDivCreat.classList.add(category);
+
+  return elementDivCreat;
+}
+function createImageElement(img, title) {
   let imgElement = document.createElement("img");
   imgElement.src = img;
   imgElement.alt = `${title} img`;
+  return imgElement;
+}
+function createTitleElement(title) {
   let titleElement = document.createElement("h1");
   titleElement.classList.add("titleElement");
   titleElement.innerHTML = title;
+  return titleElement;
+}
+function createdescriptionElement(description) {
   let descriptionElement = document.createElement("p");
   descriptionElement.classList.add("descriptionElement");
   descriptionElement.classList.add("hide");
   descriptionElement.innerHTML = description;
-
-  elementDivCreat.appendChild(imgElement);
-  elementDivCreat.appendChild(titleElement);
-  elementDivCreat.appendChild(descriptionElement);
-  divActual.appendChild(elementDivCreat);
+  return descriptionElement;
 }
 
-export function nextElements(containerDivElements) {
+
+
+export function nextElementsButtonSistem(containerDivElements) {
   containerDivElements.map((el) => {
-    /*Sistema de "mostrar" o btn back */
-    if (containerDivElements.indexOf(el) != 0) {
-      btnBack.map((btnBack) => btnBack.classList.remove("hide"));
-    }
-    // SISTEMA PARA ADICIONAR O "HIDE" A DIV ANTERIOR
-    if (!el.className.endsWith("hide")) {
-      indexElementContainerNumber = containerDivElements.indexOf(el) + 1;
-      el.classList.add("hide");
-    }
+    showBackButton(containerDivElements, el);
+    addHideClassPreviousDiv(el, containerDivElements);
   });
+  noMorePagesForNextButton(containerDivElements);
+}
 
-  /*sistema de parar quando não tiver mais pagina */
+function showBackButton(containerDivElements, el) {
+  if (containerDivElements.indexOf(el) != 0) {
+    btnBack.map((btnBack) => btnBack.classList.remove("hide"));
+  } else {
+    return;
+  }
+} //criar sistema para que esta função faça para ambos os btn
+function addHideClassPreviousDiv(el, containerDivElements) {
+  if (!el.className.endsWith("hide")) {
+    indexElementContainerNumber = containerDivElements.indexOf(el) + 1;
+    el.classList.add("hide");
+  }
+}
 
-  console.log(indexElementContainerNumber);
-  //ABAIXO É UM SISTEMA PARA DESABILITAR O NEXT
+function noMorePagesForNextButton(containerDivElements) {
   if (indexElementContainerNumber == containerDivElements.length - 1) {
     btnNext.map((btnNext) => {
       btnNext.classList.add("hide");
     });
   }
-  //SISTEMA PARA TIRAR O "HIDE" DA DIV ATUAL
   if (
     indexElementContainerNumber <
-    containerDivElements.length /*arr de elements =6, mas so tem 5 */
+    containerDivElements.length 
   ) {
     containerDivElements[indexElementContainerNumber].classList.remove("hide");
   }
@@ -117,24 +138,33 @@ export function nextElements(containerDivElements) {
 
 export function backElements(containerDivElements) {
   containerDivElements.map((el) => {
-    if (containerDivElements.indexOf(el) <= containerDivElements.length - 2) {
-      btnNext.map((btnNext) => btnNext.classList.remove("hide"));
-    }
-    if (!el.className.endsWith("hide")) {
-      indexElementContainerNumber = containerDivElements.indexOf(el) - 1;
-      el.classList.add("hide");
-      console.log(containerDivElements.indexOf(el));
-      if (containerDivElements.indexOf(el) == 1) {
-        btnBack.map((btnBack) => btnBack.classList.add("hide"));
-        console.log(containerDivElements.indexOf(el));
-      }
-    }
+    showNextButton(containerDivElements, el);
+    hideBackButton(containerDivElements, el);
   });
 
-  if (
-    indexElementContainerNumber <=
-    containerDivElements.length - 1 /*arr de elements =6, mas so tem 5 */
-  ) {
+  controlOfHideClassOfBackButton(containerDivElements);
+}
+
+function showNextButton(containerDivElements, el) {
+  if (containerDivElements.indexOf(el) <= containerDivElements.length - 2) {
+    btnNext.map((btnNext) => btnNext.classList.remove("hide"));
+  }
+}
+
+function hideBackButton(containerDivElements, el) {
+  if (!el.className.endsWith("hide")) {
+    indexElementContainerNumber = containerDivElements.indexOf(el) - 1;
+    el.classList.add("hide");
+
+    if (containerDivElements.indexOf(el) == 1) {
+      btnBack.map((btnBack) => btnBack.classList.add("hide"));
+    }
+  }
+  console.log(indexElementContainerNumber);
+}
+
+function controlOfHideClassOfBackButton(containerDivElements) {
+  if (indexElementContainerNumber <= containerDivElements.length - 1) {
     containerDivElements[indexElementContainerNumber].classList.remove("hide");
   } else {
     btnBack.map((btnBack) => {
@@ -146,62 +176,33 @@ export function backElements(containerDivElements) {
   }
 }
 
-export function clickContainerElements(elementsDiv, p) {
-  if (elementsDiv.className.endsWith("selected")) {
-    p.classList.add("hide");
-    elementsDiv.style.height = "300px";
-    elementsDiv.style.width = "300px";
-    elementsDiv.classList.remove("selected");
-  } else {
-    elementsDiv.style.height = "450px";
-    elementsDiv.style.width = "330px";
-    elementsDiv.classList.add("selected"); // adiciona a classe de selected
-    p.classList.remove("hide");
-  }
-}
+
 
 //Tags salactions
 
 export function selectTags(tags, elements) {
-  let arr;
-  switch (tags.classList[1]) {
-    case "tagBeauty":
-      selectTagsActions(
-        1,
-        selectElementsForTags(elements, "tagBeauty"),
-        elements
-      );
-      break;
-    case "tagFragrances":
-      break;
-    case "tagFurniture":
-      break;
-    case "tagsGroceries":
-      break;
+  showElementsOfTagActivated(tags,elements)
+  console.log(tags)
+
+}
+
+function showElementsOfTagActivated(tags,elements){
+
+ elements.map((el)=>{
+  if(el.className.endsWith(tagsElementsName[tags])){
+
+    removeHideElementsWithTagActived (el);
+  }else{
+    
+    el.parentNode.classList.add("hide");
+  }
+})
+
+}
+function removeHideElementsWithTagActived(elements){
+  if(elements.parentNode.className.endsWith("hide")){
+    elements.parentNode.classList.remove("hide");
   }
 }
 
-function selectTagsActions(key, elActived, el) {
-  el.map((el) => {
-    if (el.classList[1] == "beauty") {
-      if(el.parentNode.className.endsWith("hide")){
-        el.parentNode.classList.remove("hide");
-      }
-    } else {
-      el.parentNode.classList.add("hide");
-    }
-  });
-}
 
-function selectElementsForTags(el, nameTag) {
-  let arr = [];
-  el.map((el) => {
-    if (nameTag == "tagBeauty") {
-      if (el.classList[1] == "beauty") {
-        arr.push(el);
-      }
-    }
-  });
-
-  return arr;
-}
