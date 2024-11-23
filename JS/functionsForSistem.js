@@ -21,66 +21,61 @@ export async function getProducts() {
   productsArray.map((el) => {
     indexAllDataElement = productsArray.indexOf(el);
 
-    createChieldsElementsInContainerFiveElement({
+    createChieldsElements({
       id: el.id,
       images: el.image,
       title: el.title,
       description: el.description,
       category: el.class,
-      divActual: createDivElements(indexAllDataElement),
+      index: indexAllDataElement
     });
   });
 }
-
-
 //abaixo deve-se ser mudado
-function createDivElements(indexAllDataElement) {
-  if (indexAllDataElement % 5 == 0) {
-    let creatDiv = document.createElement("div");
-    creatDiv.classList.add(`containerFiveElement${indexAllDataElement}`);
-    creatDiv.classList.add(`containerDivElements`);
-    if (indexAllDataElement >= 5) {
-      creatDiv.classList.add("hide");
-    }
-    containerMain.appendChild(creatDiv);
-    nameContainerFiveElement = `containerFiveElement${indexAllDataElement}`;
-  }
 
-  let divActual = document.querySelector(`.${nameContainerFiveElement}`);
-  return divActual;
-}
 
-function createChieldsElementsInContainerFiveElement({
+function createChieldsElements({
   id,
   images,
   title,
   description,
   category,
-  divActual,
+  index
 }) {
-  let createDivContainerElementResult = createDivContainerElement(id, category);
 
-  createDivContainerElementResult.appendChild(
+
+  let createDivContainerElementResultCall = createDivContainerElement(id, category,index);
+
+  createDivContainerElementResultCall.appendChild(
     createImageElement(images, title)
   );
-  createDivContainerElementResult.appendChild(createTitleElement(title));
-  createDivContainerElementResult.appendChild(
+  createDivContainerElementResultCall.appendChild(createTitleElement(title));
+  createDivContainerElementResultCall.appendChild(
     createdescriptionElement(description)
   );
-  if (createDivContainerElementResult) {
-    divActual.appendChild(createDivContainerElementResult);
+  if (createDivContainerElementResultCall) {
+    containerMain.appendChild(createDivContainerElementResultCall);
   }
 }
 
-function createDivContainerElement(id, category) {
-  console.log(category)
+
+function createDivContainerElement(id, category,index) {
+
   let elementDivCreat = document.createElement("div");
   elementDivCreat.id = `${id}`;
   elementDivCreat.classList.add("containerElement");
   elementDivCreat.classList.add(category);
 
+  if(index>4){
+    elementDivCreat.classList.add("hide");
+  }
+
   return elementDivCreat;
 }
+
+
+
+
 function createImageElement(img, title) {
   let imgElement = document.createElement("img");
   imgElement.src = img;
