@@ -1,10 +1,10 @@
 import * as fun from "./functionsForSistem.js";
-const url = "https://dummyjson.com/products";
 import * as style from "./styleSistems.js"
+const url = "https://api-projeto-peex.onrender.com/products";
 
 export let result = fetch(url)
   .then((res) => res.json())
-  .then((res) => res.products);
+
 
 let containerElement;
 let containerDivElements;

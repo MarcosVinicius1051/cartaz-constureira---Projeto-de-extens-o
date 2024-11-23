@@ -17,21 +17,23 @@ let tagsElementsName = {
 
 export async function getProducts() {
   const productsArray = await result;
-  console.log(productsArray[0]);
+  console.log(productsArray[0])
   productsArray.map((el) => {
     indexAllDataElement = productsArray.indexOf(el);
 
     createChieldsElementsInContainerFiveElement({
       id: el.id,
-      images: el.images[0],
+      images: el.image,
       title: el.title,
       description: el.description,
-      category: el.category,
+      category: el.class,
       divActual: createDivElements(indexAllDataElement),
     });
   });
 }
 
+
+//abaixo deve-se ser mudado
 function createDivElements(indexAllDataElement) {
   if (indexAllDataElement % 5 == 0) {
     let creatDiv = document.createElement("div");
@@ -71,6 +73,7 @@ function createChieldsElementsInContainerFiveElement({
 }
 
 function createDivContainerElement(id, category) {
+  console.log(category)
   let elementDivCreat = document.createElement("div");
   elementDivCreat.id = `${id}`;
   elementDivCreat.classList.add("containerElement");
@@ -204,5 +207,5 @@ function removeHideElementsWithTagActived(elements){
     elements.parentNode.classList.remove("hide");
   }
 }
-
+// começar a criar o novo sistema de tags, pois é necessario organizar as tags em grupos de 5 e também fazer o sistema de ativado e desativado das seleções para que não seja possivel transitar entre elemenetos de tags diferentes
 
