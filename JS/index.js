@@ -7,22 +7,22 @@ export let result = fetch(url)
 
 
 let containerElement;
-let containerDivElements;
+
 let containerTagsElementsButtons;
 let resultProducts = await fun.getProducts();
 
 //sistema de pegar os elementos DEPOIS de serem puxados do DOM
 if (resultProducts != false) {
   containerElement = [...document.querySelectorAll(".containerElement")];
-  containerDivElements = [
-    ...document.querySelectorAll(".containerDivElements"),
-  ];
+  
   containerTagsElementsButtons = [...document.querySelectorAll(".btnTags")];
 }
 
+
+
 fun.btnNext.map((btnNext) => {
   btnNext.addEventListener("click", (evt) => {
-    fun.nextElementsButtonSistem(containerDivElements);
+    fun.nextElementsButtonSystem(containerElement);
   });
 });
 
@@ -30,7 +30,7 @@ fun.btnNext.map((btnNext) => {
 fun.btnBack.map((btnBack) => {
   btnBack.classList.add("hide");
   btnBack.addEventListener("click", (evt) => {
-    fun.backElements(containerDivElements);
+    fun.backElements(containerElement);
   });
 });
 

@@ -8,6 +8,7 @@ export const btnBack = [...document.querySelectorAll(".back")];
 
 const containerMain = document.querySelector(".containerMain");
 
+
 let tagsElementsName = {
   "tagBeauty":'beauty',
   "tagFragrances":"Fragrances",
@@ -74,8 +75,6 @@ function createDivContainerElement(id, category,index) {
 }
 
 
-
-
 function createImageElement(img, title) {
   let imgElement = document.createElement("img");
   imgElement.src = img;
@@ -96,83 +95,105 @@ function createdescriptionElement(description) {
   return descriptionElement;
 }
 
+let numberSetOfFive = 5;
 
+export function nextElementsButtonSystem(containerElement) {
+let lastIdOfSet =elementsNoHideToHide(containerElement);
+showButton("next")
+lastPageHideNext(containerElement,lastIdOfSet)
+nextPageAction(containerElement,lastIdOfSet)
 
-export function nextElementsButtonSistem(containerDivElements) {
-  containerDivElements.map((el) => {
-    showBackButton(containerDivElements, el);
-    addHideClassPreviousDiv(el, containerDivElements);
-  });
-  noMorePagesForNextButton(containerDivElements);
 }
 
-function showBackButton(containerDivElements, el) {
-  if (containerDivElements.indexOf(el) != 0) {
-    btnBack.map((btnBack) => btnBack.classList.remove("hide"));
-  } else {
-    return;
-  }
-} //criar sistema para que esta função faça para ambos os btn
-function addHideClassPreviousDiv(el, containerDivElements) {
-  if (!el.className.endsWith("hide")) {
-    indexElementContainerNumber = containerDivElements.indexOf(el) + 1;
-    el.classList.add("hide");
-  }
+
+function elementsNoHideToHide(containerElement){
+  let lastIdOfSet;
+
+  containerElement.map((el)=>{
+      if(!el.className.endsWith("hide")){
+
+        lastIdOfSet = addClassHide(el)
+      } 
+  })
+  return lastIdOfSet.id 
 }
 
-function noMorePagesForNextButton(containerDivElements) {
-  if (indexElementContainerNumber == containerDivElements.length - 1) {
-    btnNext.map((btnNext) => {
-      btnNext.classList.add("hide");
-    });
-  }
-  if (
-    indexElementContainerNumber <
-    containerDivElements.length 
-  ) {
-    containerDivElements[indexElementContainerNumber].classList.remove("hide");
-  }
+function nextPageAction (containerElement,lastIdOfSet){
+  let idElemet;
+  containerElement.map((el)=>{
+    idElemet = parseInt(el.id)
+    lastIdOfSet = parseInt(lastIdOfSet)
+    if(idElemet > lastIdOfSet && idElemet<= lastIdOfSet+numberSetOfFive){
+
+      // console.log(lastIdOfSet)
+      // console.log(idElemet)
+      // console.log(el)
+      el.classList.remove("hide")
+    }
+  })
 }
 
-export function backElements(containerDivElements) {
-  containerDivElements.map((el) => {
-    showNextButton(containerDivElements, el);
-    hideBackButton(containerDivElements, el);
-  });
+function lastPageHideNext(containerElement,lastIdOfSet){
 
-  controlOfHideClassOfBackButton(containerDivElements);
+if(lastIdOfSet > containerElement.length-numberSetOfFive){
+  hideButton("next")
+}
 }
 
-function showNextButton(containerDivElements, el) {
-  if (containerDivElements.indexOf(el) <= containerDivElements.length - 2) {
-    btnNext.map((btnNext) => btnNext.classList.remove("hide"));
+
+export function backElements(containerElement) {
+  showButton("back")
+  let lastIdOfSet =elementsNoHideToHide(containerElement);
+  firstPageHideBack(containerElement,lastIdOfSet)
+  BackPageAction(containerElement,lastIdOfSet)
+}
+
+function firstPageHideBack(containerElement,lastIdOfSet){
+  
+  if(lastIdOfSet == 9){
+    hideButton("back")
+
   }
 }
+function BackPageAction(containerElement,lastIdOfSet){
+  let idElemet;
+  containerElement.map((el)=>{
+    idElemet = parseInt(el.id)
+    lastIdOfSet = parseInt(lastIdOfSet)
 
-function hideBackButton(containerDivElements, el) {
-  if (!el.className.endsWith("hide")) {
-    indexElementContainerNumber = containerDivElements.indexOf(el) - 1;
-    el.classList.add("hide");
+    if(idElemet <= lastIdOfSet -numberSetOfFive  && idElemet> lastIdOfSet-(numberSetOfFive*2)){
+      removeClassHide(el)
+    }
+    
+  })
+}
 
-    if (containerDivElements.indexOf(el) == 1) {
-      btnBack.map((btnBack) => btnBack.classList.add("hide"));
+
+function addClassHide(el){
+
+  el.classList.add("hide");
+  return el
+}
+function removeClassHide(el){
+  el.classList.remove("hide");
+  return el
+}
+  
+  function showButton(key){
+    if(key == "next"){
+      btnBack.map(back=>removeClassHide(back))
+    }else if("back"){
+      btnNext.map(next=>removeClassHide(next))
     }
   }
-  console.log(indexElementContainerNumber);
-}
-
-function controlOfHideClassOfBackButton(containerDivElements) {
-  if (indexElementContainerNumber <= containerDivElements.length - 1) {
-    containerDivElements[indexElementContainerNumber].classList.remove("hide");
-  } else {
-    btnBack.map((btnBack) => {
-      btnBack.classList.add("hide");
-    });
-    containerDivElements[indexElementContainerNumber + 1].classList.remove(
-      "hide"
-    );
+  function hideButton(key){
+    if(key == "back"){
+      
+      btnBack.map(back=>addClassHide(back))
+    }else if("next"){
+      btnNext.map(next=>addClassHide(next))
+    }
   }
-}
 
 
 
