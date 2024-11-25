@@ -44,11 +44,18 @@ containerElement.map((containerElement) => {
   });
 });
 
-containerTagsElementsButtons.map((containerTagsElementsButtons) => {
-  containerTagsElementsButtons.addEventListener("click", (evt) => {
+containerTagsElementsButtons.map((containerTagsButtons) => {
+  containerTagsButtons.addEventListener("click", (evt) => {
+
     
-    fun.selectTags(containerTagsElementsButtons.classList[1],containerElement);
+    fun.selectTags({
+      tagClickedClassName: containerTagsButtons.classList[1],
+      tagClicked: containerTagsButtons, 
+      elements: containerElement,
+      allTags : containerTagsElementsButtons,
+    });
   });
 });
+
 
 

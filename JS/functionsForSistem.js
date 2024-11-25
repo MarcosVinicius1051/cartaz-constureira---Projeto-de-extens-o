@@ -1,4 +1,5 @@
 import { result } from "./index.js";
+import * as style from "./styleSistems.js";
 
 let indexAllDataElement;
 let nameContainerFiveElement;
@@ -8,17 +9,11 @@ export const btnBack = [...document.querySelectorAll(".back")];
 
 const containerMain = document.querySelector(".containerMain");
 
-
-let tagsElementsName = {
-  "tagBeauty":'beauty',
-  "tagFragrances":"Fragrances",
-  "tagFurniture":"furniture",
-  "tagGroceries":"groceries"
-}
+let AllMainTags = [...document.querySelectorAll(".mainTag")]
 
 export async function getProducts() {
   const productsArray = await result;
-  console.log(productsArray[0])
+  console.log(productsArray[0]);
   productsArray.map((el) => {
     indexAllDataElement = productsArray.indexOf(el);
 
@@ -28,12 +23,11 @@ export async function getProducts() {
       title: el.title,
       description: el.description,
       category: el.class,
-      index: indexAllDataElement
+      index: indexAllDataElement,
     });
   });
 }
 //abaixo deve-se ser mudado
-
 
 function createChieldsElements({
   id,
@@ -41,11 +35,13 @@ function createChieldsElements({
   title,
   description,
   category,
-  index
+  index,
 }) {
-
-
-  let createDivContainerElementResultCall = createDivContainerElement(id, category,index);
+  let createDivContainerElementResultCall = createDivContainerElement(
+    id,
+    category,
+    index
+  );
 
   createDivContainerElementResultCall.appendChild(
     createImageElement(images, title)
@@ -59,21 +55,18 @@ function createChieldsElements({
   }
 }
 
-
-function createDivContainerElement(id, category,index) {
-
+function createDivContainerElement(id, category, index) {
   let elementDivCreat = document.createElement("div");
   elementDivCreat.id = `${id}`;
   elementDivCreat.classList.add("containerElement");
   elementDivCreat.classList.add(category);
 
-  if(index>4){
+  if (index > 4) {
     elementDivCreat.classList.add("hide");
   }
 
   return elementDivCreat;
 }
-
 
 function createImageElement(img, title) {
   let imgElement = document.createElement("img");
@@ -98,130 +91,142 @@ function createdescriptionElement(description) {
 let numberSetOfFive = 5;
 
 export function nextElementsButtonSystem(containerElement) {
-let lastIdOfSet =elementsNoHideToHide(containerElement);
-showButton("next")
-lastPageHideNext(containerElement,lastIdOfSet)
-nextPageAction(containerElement,lastIdOfSet)
-
+  let lastIdOfSet = elementsNoHideToHide(containerElement);
+  showButton("next");
+  lastPageHideNext(containerElement, lastIdOfSet);
+  nextPageAction(containerElement, lastIdOfSet);
 }
 
-
-function elementsNoHideToHide(containerElement){
+function elementsNoHideToHide(containerElement) {
   let lastIdOfSet;
 
-  containerElement.map((el)=>{
-      if(!el.className.endsWith("hide")){
-
-        lastIdOfSet = addClassHide(el)
-      } 
-  })
-  return lastIdOfSet.id 
+  containerElement.map((el) => {
+    if (!el.className.endsWith("hide")) {
+      lastIdOfSet = addClassHide(el);
+    }
+  });
+  return lastIdOfSet.id;
 }
 
-function nextPageAction (containerElement,lastIdOfSet){
+function nextPageAction(containerElement, lastIdOfSet) {
   let idElemet;
-  containerElement.map((el)=>{
-    idElemet = parseInt(el.id)
-    lastIdOfSet = parseInt(lastIdOfSet)
-    if(idElemet > lastIdOfSet && idElemet<= lastIdOfSet+numberSetOfFive){
-
+  containerElement.map((el) => {
+    idElemet = parseInt(el.id);
+    lastIdOfSet = parseInt(lastIdOfSet);
+    if (idElemet > lastIdOfSet && idElemet <= lastIdOfSet + numberSetOfFive) {
       // console.log(lastIdOfSet)
       // console.log(idElemet)
       // console.log(el)
-      el.classList.remove("hide")
+      el.classList.remove("hide");
     }
-  })
+  });
 }
 
-function lastPageHideNext(containerElement,lastIdOfSet){
-
-if(lastIdOfSet > containerElement.length-numberSetOfFive){
-  hideButton("next")
+function lastPageHideNext(containerElement, lastIdOfSet) {
+  if (lastIdOfSet > containerElement.length - numberSetOfFive) {
+    ("next");
+  }
 }
-}
-
 
 export function backElements(containerElement) {
-  showButton("back")
-  let lastIdOfSet =elementsNoHideToHide(containerElement);
-  firstPageHideBack(containerElement,lastIdOfSet)
-  BackPageAction(containerElement,lastIdOfSet)
+  showButton("back");
+  let lastIdOfSet = elementsNoHideToHide(containerElement);
+  firstPageHideBack(containerElement, lastIdOfSet);
+  BackPageAction(containerElement, lastIdOfSet);
 }
 
-function firstPageHideBack(containerElement,lastIdOfSet){
-  
-  if(lastIdOfSet == 9){
-    hideButton("back")
-
+function firstPageHideBack(containerElement, lastIdOfSet) {
+  if (lastIdOfSet == 9) {
+    hideButton("back");
   }
 }
-function BackPageAction(containerElement,lastIdOfSet){
+function BackPageAction(containerElement, lastIdOfSet) {
   let idElemet;
-  containerElement.map((el)=>{
-    idElemet = parseInt(el.id)
-    lastIdOfSet = parseInt(lastIdOfSet)
+  containerElement.map((el) => {
+    idElemet = parseInt(el.id);
+    lastIdOfSet = parseInt(lastIdOfSet);
 
-    if(idElemet <= lastIdOfSet -numberSetOfFive  && idElemet> lastIdOfSet-(numberSetOfFive*2)){
-      removeClassHide(el)
+    if (
+      idElemet <= lastIdOfSet - numberSetOfFive &&
+      idElemet > lastIdOfSet - numberSetOfFive * 2
+    ) {
+      removeClassHide(el);
     }
-    
-  })
+  });
 }
 
-
-function addClassHide(el){
-
+function addClassHide(el) {
   el.classList.add("hide");
-  return el
+  return el;
 }
-function removeClassHide(el){
+function removeClassHide(el) {
   el.classList.remove("hide");
-  return el
+  return el;
 }
+
+function showButton(key) {
+  if (key == "next") {
+    btnBack.map((back) => removeClassHide(back));
+  } else if ("back") {
+    btnNext.map((next) => removeClassHide(next));
+  }
+}
+function hideButton(key) {
+  if (key == "back") {
+    btnBack.map((back) => addClassHide(back));
+  } else if ("next") {
+    btnNext.map((next) => addClassHide(next));
+  }
+}
+
+export function selectTags({
+  tagClickedClassName,
+  tagClicked,
+  elements,
+  allTags,
+}) {
+  console.log(tagClicked);
+
+  const subTagsObject = {
+    pijama: "pijama",
+    armarinho: "armarinho",
+    lingerie: "lingerie",
+    // undefined: console.log("nada"),
+  };
+
+  subTagsSystem(
+    allTags,
+    subTagsObject[tagClickedClassName] || subTagsObject[undefined]
+  );
   
-  function showButton(key){
-    if(key == "next"){
-      btnBack.map(back=>removeClassHide(back))
-    }else if("back"){
-      btnNext.map(next=>removeClassHide(next))
-    }
-  }
-  function hideButton(key){
-    if(key == "back"){
-      
-      btnBack.map(back=>addClassHide(back))
-    }else if("next"){
-      btnNext.map(next=>addClassHide(next))
-    }
-  }
-
-
-
-//Tags salactions
-
-export function selectTags(tags, elements) {
-  showElementsOfTagActivated(tags,elements)
-  console.log(tags)
-
+  checkIfMainTagIsSelected(tagClicked,allTags)
+  
+  style.selectTag(tagClicked,allTags);
 }
 
-function showElementsOfTagActivated(tags,elements){
-
- elements.map((el)=>{
-  if(el.className.endsWith(tagsElementsName[tags])){
-
-    removeHideElementsWithTagActived (el);
-  }else{
+function checkIfMainTagIsSelected(tagClicked,allTags){
+  if(tagClicked.classList.contains("mainTag")){
+  if(tagClicked.classList.contains("tagSelected")){
     
-    el.parentNode.classList.add("hide");
-  }
-})
-
+    allTags.map(el=>el.classList.add("hide"));
+    AllMainTags.map(el=>el.classList.remove("hide"));
+  }else{
+    return console.log("não selecionada ainda ")
+  }}
 }
-function removeHideElementsWithTagActived(elements){
-  if(elements.parentNode.className.endsWith("hide")){
-    elements.parentNode.classList.remove("hide");
-  }
-}
-// começar a criar o novo sistema de tags, pois é necessario organizar as tags em grupos de 5 e também fazer o sistema de ativado e desativado das seleções para que não seja possivel transitar entre elemenetos de tags diferentes
 
+function subTagsSystem(tags, key) {
+  if (key == undefined) {
+    return;
+  }
+  tags.map((tag) => {
+    if (tag.classList.contains(key)) {
+      tag.classList.remove("hide");
+    } else {
+      tag.classList.add("hide");
+    }
+  });
+}
+ 
+
+// criar o sistem para que as tags funcionem para os elementos
